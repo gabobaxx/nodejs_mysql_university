@@ -1,0 +1,272 @@
+<%- include ('partials/_header') %>
+
+<%  let total = 0;                  %>
+<%  let aprobados = [];             %>
+<%  let reprobados = [];            %>
+<%  let feminas_totales = [];       %>
+<%  let feminas_aprobadas = [];     %>
+<%  let feminas_reprobadas = [];    %>
+<%  let masculinos_totales = [];    %>
+<%  let masculinos_aprobados = [];  %>
+<%  let masculinos_reprobados = []; %>
+<%  let promedio_masculinos = 0;    %>
+<%  let promedio_feminas = 0;       %>
+<%  let promedio_total = 0;         %>
+<%  let masculinos_eximidos = 0;    %>
+<%  let feminas_eximidos = 0;       %>
+<%  let total_eximidos = 0;         %>
+
+<div class="container mt-5">
+  <div class="row">
+    <!-- Formulario -->
+    <div class="col-md-5">
+      <div class="card card-body">
+
+        <form action="/add" method="POST">
+
+          <div class="form-group mb-3">
+            <input type="number" maxlength="10" name="cedula" placeholder="Cedula" class="form-control" autofocus>
+          </div>
+          
+          <div class="form-group mb-3">
+            <input type="number" name="nota" placeholder="Promedio" class="form-control" step="any">
+          </div> 
+
+          <div class="form-check mb-3">
+              
+            <input class="form-check-input" type="radio" name="genero" id="masculino" value="masculino">
+            <label class="form-check-label" for="masculino">
+              Masculino
+            </label>
+          
+          </div>
+          <div class="form-check mb-3">
+            
+            <input class="form-check-input" type="radio" name="genero" id="femenino" value="femenino">
+            <label class="form-check-label" for="femenino">
+              Femenino
+            </label>
+
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            Guardar Registro
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- TABLA 1 -->
+    <div class="col-md-7">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <td>n°</td>
+            <td>Cedula</td>
+            <td>Promedio</td>
+            <td>Genero</td>
+            <td>Actions</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(var i = 0; i < data.length; i++) { %>
+            <tr>
+              <td><%= (i + 1) %></td>
+              <td><%= data[i].cedula %></td>
+              <td class="text-center"><%= data[i].average %>pts</td>
+              
+              <% if(data[i].genero == "M") { %>
+                <td>Maculino</td>
+              <% }else{ %>
+                <td>Femenino</td>
+              <% } %>
+
+              <td>
+                <a href="/update/<%= data[i].id %>" class="btn btn-info">
+                  
+                  <i class="bi bi-pencil-fill"></i>
+
+                </a>
+                <a href="/delete/<%= data[i].id %>" class="btn btn-danger">
+                  <i class="bi bi-trash-fill"></i>
+                </a>
+              </td>
+            </tr>
+          <% }; %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="container mt-10">
+    <div class="mt-5">
+      <h3>APROBADOS Y REPROBADOS</h3>
+      <!-- TABLA 2 -->
+      <table class="table table-bordered table-hover">
+        <caption class="text-danger">
+          Total de aprobados y reprobados
+        </caption>
+        <thead>
+          <tr>
+            <td>n°</td>
+            <td>Aprobados</td>
+            <td>Reprobados</td>
+            <td>Genero</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(var i = 0; i < data.length; i++) { %>
+            <% total = total + 1; %>
+            <tr>
+              <td><%= (i + 1) %></td>
+                <!-- PROMEDIO TOTAL -->
+                <% promedio_total += data[i].average %>
+                <%
+                  if(data[i].average >= 18){
+                    total_eximidos = total_eximidos + 1;
+                    console.log(total_eximidos);
+                  }
+                %>
+                <!-- APROBADOS -->
+              <% if(data[i].average >= 10){  %>
+                  <% if(data[i].genero == "M"){ %>
+                  
+                    <% 
+                      if(data[i].average >= 18){
+                        masculinos_eximidos = masculinos_eximidos + 1;
+                        console.log(masculinos_eximidos);
+                      }
+                      
+                      masculinos_aprobados.push(data[i].cedula);
+                    
+                    %>
+                  <% }else{
+                      if(data[i].average >= 18){
+                        feminas_eximidos = feminas_eximidos + 1;
+                        console.log(feminas_eximidos);
+                      }
+                      
+                      feminas_aprobadas.push(data[i].cedula);
+                      
+                  }; %>   
+                <%= aprobados.push(data[i].cedula) %>
+                <td><%= data[i].cedula%></td>
+                <td>n/a</td>
+              <% }else{ %>
+                <!-- REPROBADOS -->
+                <% if(data[i].genero == "M"){ %>
+                  <% 
+                    
+                    masculinos_reprobados.push(data[i].cedula);
+                    
+                  %>
+                <% }else{
+                    
+                    feminas_reprobadas.push(data[i].cedula);
+                    
+                }; %>   
+                <%= reprobados.push(data[i].cedula) %>
+                <td>n/a</td>
+                <td><%= data[i].cedula %></td>
+              <% } %>
+              <!-- GENERO -->
+              <% if (data[i].genero == "M") { %>
+                <% promedio_masculinos += data[i].average %>
+                
+                <%= masculinos_totales.push(data[i].cedula) %>
+                <td>Maculino</td>
+              <% }else{ %>
+                <% promedio_feminas += data[i].average %>
+                <%= feminas_totales.push(data[i].cedula) %>
+                <td>Femenino</td>
+              <% } %>
+              
+              
+            </tr>
+            
+          <% } %>
+          <tr>
+            <th>Total</th>
+            <% if(aprobados.length > 0){ %>
+              <td><%= aprobados.length %></td>
+            <% } %>
+            <% if(reprobados.length > 0){ %>
+              <td><%= reprobados.length %></td>
+            <% } %>
+            <td><%= total %></td>
+          </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+    <div class="mt-5">
+      <!-- TABLA 3 -->
+    <h3>APROBADOS Y REPOBRADOS POR GENERO</h3>
+    <table class="table table-bordered table-hover">
+      <caption class="text-danger">
+        Aprobados y reprobados por genero
+      </caption>
+
+      <thead>
+        <tr>
+          <td></td>
+          <th>Masculinos</th>
+          <th>Femeninos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Aprobados</th>
+          <td><%= masculinos_aprobados.length; %></td>
+          <td><%= feminas_aprobadas.length; %></td>
+        </tr>
+        <tr>
+          <th>Reprobados</th>
+          <td><%= masculinos_reprobados.length; %></td>
+          <td><%= feminas_reprobadas.length; %></td>
+        </tr>
+        <tr>
+          <th>Total</th>
+          <td><%= masculinos_totales.length; %></td>
+          <td><%= feminas_totales.length; %></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+   <div class="mt-5">
+      <!-- TABLA 4 -->
+    <h3>PROMEDIO GENERAL</h3>
+    <table class="table table-bordered table-hover">
+      <caption class="text-danger">
+        Promedio 
+      </caption>
+      <thead>
+        <tr>
+          <th>Genero</th>
+          <th>Promedio</th>
+          <th>+18pts</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Masculino</th>
+          <td><%= promedio_masculinos / masculinos_totales.length %></td>
+          <td><%= masculinos_eximidos %></td>
+        </tr>
+        <tr>
+          <th>Femenino</th>
+          <td><%= promedio_feminas / feminas_totales.length %></td>
+          <td><%= feminas_eximidos %></td>
+        </tr>
+        <tr>
+          <th>Total</th>
+          <td><%= promedio_total / total %></td>
+          <td><%= total_eximidos %></td>
+        </tr>
+      </tbody>
+    </table>
+   </div>
+  </div>
+</div>
+
+
+<%- include('partials/_footer') %>
