@@ -2,6 +2,25 @@
 Aplicacion dedicada a llevar el control de alumnos reprobados y aprobados en una universidad, correspondiente a una asignacion de la materia Laboratiorio de Datos.
 
 # Asignación/Problema 
+Realice un formulario para un colegio para llevar el control de los alumnos aprobados y reprobados.
+
+Alimentar con:
+- Cédula del alumno.
+- Género del alumno.
+- Nota Promedio del Alumno.
+
+Y debe mostrar el siguiente reporte:
+
+- Cantidad de aprobados.
+- Cantidad de reprobados.
+- Cantidad de masculinos totales.
+- Cantidad de femeninas totales.
+- Cantidad de masculinos reprobados.
+- Cantidad de masculinos reprobados.
+- Cantidad de femeninas aprobadas.
+- Cantidad de femeninas reprobadas.
+- Promedio por género y promedio total.
+- Cantidad de alumnos con notas mayores o iguales a 18.
 
 # Página principal
 ![](docs/principal.png)
