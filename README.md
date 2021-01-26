@@ -5,10 +5,8 @@ Aplicacion dedicada a llevar el control de alumnos reprobados y aprobados en una
 
 # Página principal
 ![](docs/principal.png)
-# Página secundaria
 ![](docs/segunda.png)
-# Página para editar
-![](docs/editar.png)
+![](docs/tercera.png)
 
 # Requerimientos
 - [nodejs](https://nodejs.org)
@@ -20,16 +18,15 @@ Aplicacion dedicada a llevar el control de alumnos reprobados y aprobados en una
 1. Clonar repositorio con git, GitHub CLI o descargar la carpeta comprimida.
 ~~~ 
 # cmd 
-~~~
-~~~
  cd %USERPROFILE%\Desktop 
-~~~ 
+ git clone https://github.com/gabrielba15/nodejs_mysql_university.git 
 ~~~
-git clone https://github.com/gabrielba15/php_mysql_store.git 
-~~~ 
+2. Dentro de la carpeta clonada haz los siguientes comandos:
 ~~~
-2. npm install
-3. npm start
+npm install
+npm start
 ~~~
-4. Ve a localhost:3000
-5. Listo, happy hacking crack :D
+- npm install para descargar las dependencias
+- npm start para arrancar el servidor
+3. Ve a localhost:3000 en tu navegador 
+4. Listo, happy hacking crack :D
